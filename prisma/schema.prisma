@@ -65,3 +65,10 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Note {
+    id            String    @id @default(cuid())
+    name String
+    creator String
+    path String
+}

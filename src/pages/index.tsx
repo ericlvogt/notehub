@@ -6,7 +6,8 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { api } from "../utils/api";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  // const no = api.example.hello.useQuery({ text: "from tRPC" });
+  const notes = api.note.getAll.useQuery();
 
   return (
     <>
@@ -20,7 +21,31 @@ const Home: NextPage = () => {
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             NoteHub
           </h1>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
+          <div className="w-full">
+            <table className="table-auto w-full text-left">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th>Id</th>
+                  <th>Note</th>
+                  <th>Path</th>
+                  <th>Creator</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  notes.data?.map((note) => 
+                  <tr key={note.id} className="flex row-span-full bg-white/50 hover:bg-white/70">
+                    <td>{note.id}</td>
+                    <td>{note.name}</td>
+                    <td>{note.path}</td>
+                    <td>{note.creator}</td>
+                  </tr>
+                  )
+                }
+              </tbody>
+            </table>
+          </div>
+          {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
             <Link
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
               href="https://create.t3.gg/en/usage/first-steps"
@@ -49,7 +74,7 @@ const Home: NextPage = () => {
               {hello.data ? hello.data.greeting : "Loading tRPC query..."}
             </p>
             <AuthShowcase />
-          </div>
+          </div> */}
         </div>
       </main>
     </>
