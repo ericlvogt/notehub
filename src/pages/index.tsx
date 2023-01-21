@@ -4,10 +4,22 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "../utils/api";
+import { useState } from "react";
 
 const Home: NextPage = () => {
   // const no = api.example.hello.useQuery({ text: "from tRPC" });
-  const notes = api.note.getAll.useQuery();
+  let notes = api.note.getAll.useQuery();
+  const mutation = api.note.create.useMutation();
+
+  const [name, setName] = useState("");
+  const [path, setPath] = useState("");
+  const [creator, setCreator] = useState("");
+
+  const handleSubmit = () => {
+    mutation.mutate({name, creator, path});
+    notes = api.note.getAll.useQuery();
+    console.log(notes);
+  };
 
   return (
     <>
@@ -21,29 +33,45 @@ const Home: NextPage = () => {
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             NoteHub
           </h1>
+          <form onSubmit={handleSubmit} className="flex-col">
+            <label className="block my-2 text-cyan-50">
+              Name:
+              <input className="border rounded p-2 w-full text-black" type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+            </label>
+            <label className="block my-2 text-cyan-50">
+              Path:
+              <input className="border rounded p-2 w-full text-black" type="text" value={path} onChange={(e) => setPath(e.target.value)}/>
+            </label>
+            <label className="block my-2 text-cyan-50">
+              Creator:
+              <input className="border rounded p-2 w-full text-black" type="text" value={creator} onChange={(e) => setCreator(e.target.value)}/>
+            </label>
+            <input className="bg-blue-500 text-white rounded p-2 my-2" type="submit" value="Submit"/>
+          </form>
           <div className="w-full">
-            <table className="table-auto w-full text-left">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th>Id</th>
-                  <th>Note</th>
-                  <th>Path</th>
-                  <th>Creator</th>
+          <table className="border-collapse border rounded-lg shadow-md bg-white table-auto">
+            <thead>
+              <tr className="bg-gray-200 font-medium text-gray-800 border-b border-gray-300">
+                <th className="px-4 py-2 text-left">Id</th>
+                <th className="px-4 py-2 text-left">Note</th>
+                <th className="px-4 py-2 text-left">Path</th>
+                <th className="px-4 py-2 text-left">Creator</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                notes.data?.map((note) => 
+                <tr key={note.id} className="bg-white hover:bg-gray-100">
+                  <td className="border px-4 py-2 text-sm text-gray-600">{note.id}</td>
+                  <td className="border px-4 py-2 text-sm text-gray-600">{note.name}</td>
+                  <td className="border px-4 py-2 text-sm text-gray-600">{note.path}</td>
+                  <td className="border px-4 py-2 text-sm text-gray-600">{note.creator}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {
-                  notes.data?.map((note) => 
-                  <tr key={note.id} className="flex row-span-full bg-white/50 hover:bg-white/70">
-                    <td>{note.id}</td>
-                    <td>{note.name}</td>
-                    <td>{note.path}</td>
-                    <td>{note.creator}</td>
-                  </tr>
-                  )
-                }
-              </tbody>
-            </table>
+                )
+              }
+            </tbody>
+          </table>
+
           </div>
           {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
             <Link
