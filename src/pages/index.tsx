@@ -23,10 +23,7 @@ const Home: NextPage = () => {
   };
 
   const handleSubmitSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // e.preventDefault()
-    notes = api.note.search.useQuery({name: searchName, creator: searchCreator});
-    // onSearch(searchTerm);
+    //does nothing right now
   }
 
   return (
