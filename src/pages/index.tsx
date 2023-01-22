@@ -4,22 +4,30 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "../utils/api";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Note } from "@prisma/client";
 
 const Home: NextPage = () => {
   // const no = api.example.hello.useQuery({ text: "from tRPC" });
-  let notes = api.note.getAll.useQuery();
   const mutation = api.note.create.useMutation();
-
+  let notes = api.note.getAll.useQuery();
+  
   const [name, setName] = useState("");
   const [path, setPath] = useState("");
   const [creator, setCreator] = useState("");
+  const [searchName, setSearchName] = useState("");
+  const [searchCreator, setSearchCreator] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmitNewNote = (e : React.FormEvent) => {
     mutation.mutate({name, creator, path});
-    notes = api.note.getAll.useQuery();
-    console.log(notes);
   };
+
+  const handleSubmitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    // e.preventDefault()
+    notes = api.note.search.useQuery({name: searchName, creator: searchCreator});
+    // onSearch(searchTerm);
+  }
 
   return (
     <>
@@ -33,23 +41,38 @@ const Home: NextPage = () => {
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             NoteHub
           </h1>
-          <form onSubmit={handleSubmit} className="flex-col">
+          <form onSubmit={handleSubmitSearch}>
+            <input
+              type="text"
+              placeholder="Name..."
+              value={searchName}
+              onChange={e => setSearchName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Creator..."
+              value={searchCreator}
+              onChange={e => setSearchCreator(e.target.value)}
+            />
+            <button type="submit">Search</button>
+          </form>
+          <form onSubmit={handleSubmitNewNote} className="flex-col">
             <label className="block my-2 text-cyan-50">
               Name:
-              <input className="border rounded p-2 w-full text-black" type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+              <input className="border rounded p-2 w-full text-black" type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)}/>
             </label>
             <label className="block my-2 text-cyan-50">
               Path:
-              <input className="border rounded p-2 w-full text-black" type="text" value={path} onChange={(e) => setPath(e.target.value)}/>
+              <input className="border rounded p-2 w-full text-black" type="text" placeholder="Path" value={path} onChange={(e) => setPath(e.target.value)}/>
             </label>
             <label className="block my-2 text-cyan-50">
               Creator:
-              <input className="border rounded p-2 w-full text-black" type="text" value={creator} onChange={(e) => setCreator(e.target.value)}/>
+              <input className="border rounded p-2 w-full text-black" type="text" placeholder="Creator" value={creator} onChange={(e) => setCreator(e.target.value)}/>
             </label>
             <input className="bg-blue-500 text-white rounded p-2 my-2" type="submit" value="Submit"/>
           </form>
           <div className="w-full">
-          <table className="border-collapse border rounded-lg shadow-md bg-white table-auto">
+          <table className="border-collapse border shadow-md bg-white mx-auto">
             <thead>
               <tr className="bg-gray-200 font-medium text-gray-800 border-b border-gray-300">
                 <th className="px-4 py-2 text-left">Id</th>
@@ -60,7 +83,8 @@ const Home: NextPage = () => {
             </thead>
             <tbody>
               {
-                notes.data?.map((note) => 
+                notes.data?.map((note
+                  ) => 
                 <tr key={note.id} className="bg-white hover:bg-gray-100">
                   <td className="border px-4 py-2 text-sm text-gray-600">{note.id}</td>
                   <td className="border px-4 py-2 text-sm text-gray-600">{note.name}</td>
@@ -71,7 +95,6 @@ const Home: NextPage = () => {
               }
             </tbody>
           </table>
-
           </div>
           {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
             <Link

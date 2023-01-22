@@ -9,6 +9,24 @@ export const noteRouter = createTRPCRouter({
       return ctx.prisma.note.findMany();
     }),
 
+  search: publicProcedure
+    .input(z.object({
+      name: z.string(),
+      creator: z.string(),
+    }))
+    .query(({input, ctx}) => {
+      return ctx.prisma.note.findMany({
+        where: {
+          name: {
+            contains: input.name,
+          },
+          creator:{
+            contains: input.creator,
+          },
+        },
+      });
+    }),
+
   create: publicProcedure
     .input(z.object({
       name: z.string(),
