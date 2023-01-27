@@ -1,16 +1,25 @@
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import Layout from "../components/layout";
-
-interface SearchCriteria{
-
-}
+import { useRouter } from "next/router";
+import { api } from "../utils/api";
+import SearchTable from "../components/search-table";
 
 const Search: NextPage = () => {
+    const router = useRouter();
+    console.log(router.query);
+
+    const {searchTerm} = router.query;
+    
+    const results = api.note.search.useQuery({
+        name: searchTerm?.toString() ?? "",
+        creator: "",
+    })
+
     return (
         <>
-            <Layout home={false}>
+            <Layout>
                 <div>
-                    <h1>Hi</h1>
+                    <SearchTable data={results.data}/>
                 </div>
             </Layout>
             

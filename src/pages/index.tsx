@@ -1,30 +1,39 @@
 import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "../utils/api";
 import React, { useState } from "react";
-import { Note } from "@prisma/client";
 import Layout from "../components/layout";
+import { useRouter } from "next/router";
+import SearchTable from "../components/search-table";
 
 const Home: NextPage = () => {
-  // const no = api.example.hello.useQuery({ text: "from tRPC" });
   const mutation = api.note.create.useMutation();
-  let notes = api.note.getAll.useQuery();
+  const notes = api.note.getAll.useQuery();
   
   const [name, setName] = useState("");
   const [path, setPath] = useState("");
   const [creator, setCreator] = useState("");
   const [searchName, setSearchName] = useState("");
   const [searchCreator, setSearchCreator] = useState("");
+  
+  const router = useRouter();
 
-  const handleSubmitNewNote = (e : React.FormEvent) => {
+  const handleSubmitNewNote = async (e : React.FormEvent) => {
+    e.preventDefault();
     mutation.mutate({name, creator, path});
+    await notes.refetch();
   };
 
   const handleSubmitSearch = (e: React.FormEvent) => {
-    //does nothing right now
+      router.push({
+        pathname: "/search",
+        query: { name: name,
+          creator: creator,
+          path: path,
+        }
+      }).catch().then();
+    
   }
 
   return (
@@ -65,29 +74,7 @@ const Home: NextPage = () => {
             <button className="bg-blue-500 text-white rounded p-2 my-2" type="submit">Submit</button>
           </form>
           <div className="w-full">
-          <table className="border-collapse border shadow-md bg-white mx-auto">
-            <thead>
-              <tr className="bg-gray-200 font-medium text-gray-800 border-b border-gray-300">
-                <th className="px-4 py-2 text-left">Id</th>
-                <th className="px-4 py-2 text-left">Note</th>
-                <th className="px-4 py-2 text-left">Path</th>
-                <th className="px-4 py-2 text-left">Creator</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                notes.data?.map((note
-                  ) => 
-                <tr key={note.id} className="bg-white hover:bg-gray-100">
-                  <td className="border px-4 py-2 text-sm text-gray-600">{note.id}</td>
-                  <td className="border px-4 py-2 text-sm text-gray-600">{note.name}</td>
-                  <td className="border px-4 py-2 text-sm text-gray-600">{note.path}</td>
-                  <td className="border px-4 py-2 text-sm text-gray-600">{note.creator}</td>
-                </tr>
-                )
-              }
-            </tbody>
-          </table>
+            <SearchTable data={notes.data}/>
           </div>
           {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
             <Link

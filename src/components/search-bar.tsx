@@ -7,7 +7,12 @@ const SearchBar = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    router.push('/search');
+    router.push({
+        pathname: "/search",
+        query: { 
+            searchTerm: searchTerm
+        }
+    }).catch((e) => console.log(e));
   };
 
   return (
