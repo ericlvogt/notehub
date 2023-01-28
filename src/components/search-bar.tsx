@@ -16,16 +16,16 @@ const SearchBar = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center border-b border-teal-500 py-2">
+    <form onSubmit={handleSubmit} className="flex items-center py-2">
       <input
         id="search"
         type="text"
         placeholder='Search...'
         value={searchTerm}
         onChange={(event) => setSearchTerm(event.target.value)}
-        className="appearance-none bg-transparent border w-full text-gray-700 mr-3 py-1 px-2 leading-tight"
+        className="appearance-none text-notehub-dark bg-notehub-light dark:bg-notehub-dark dark:text-notehub-light border w-full mr-3 py-1 px-2 leading-tight"
       />
-      <button type="submit" className="bg-teal-500 text-white py-2 px-4 rounded-lg hover:bg-teal-600">Search</button>
+      <button type="submit" className="bg-notehub-secondary text-notehub-light py-2 px-4 rounded-lg hover:bg-notehub-secondary/80">Search</button>
     </form>
   );
 };
