@@ -23,7 +23,7 @@ const SearchBar = () => {
         placeholder='Search...'
         value={searchTerm}
         onChange={(event) => setSearchTerm(event.target.value)}
-        className="appearance-none text-notehub-dark bg-notehub-light dark:bg-notehub-dark dark:text-notehub-light border w-full mr-3 py-1 px-2 leading-tight"
+        className="rounded-md text-notehub-dark bg-notehub-light dark:bg-notehub-dark dark:text-notehub-light mr-3 py-1 px-2 focus:w-full"
       />
       <button type="submit" className="bg-notehub-secondary text-notehub-light py-2 px-4 rounded-lg hover:bg-notehub-secondary/80">Search</button>
     </form>
