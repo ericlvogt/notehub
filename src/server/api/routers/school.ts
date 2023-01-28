@@ -22,7 +22,7 @@ export const schoolRouter = createTRPCRouter({
       });
     }),
 
-  create: publicProcedure
+  create: protectedProcedure
     .input(z.object({
       name: z.string(),
     }),

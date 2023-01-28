@@ -6,22 +6,12 @@ import React, { useState } from "react";
 import Layout from "../components/layout";
 import { useRouter } from "next/router";
 import SearchTable from "../components/search-table";
+import CreateNote from "../components/create-note";
 
 const Home: NextPage = () => {
-  const mutation = api.note.create.useMutation();
+  
   const notes = api.note.getAll.useQuery();
-  
-  const [name, setName] = useState("");
-  const [path, setPath] = useState("");
-  const [creator, setCreator] = useState("");
-  
-  const router = useRouter();
-
-  const handleSubmitNewNote = async (e : React.FormEvent) => {
-    e.preventDefault();
-    mutation.mutate({name, path, classId: "123"});
-    await notes.refetch();
-  };
+  const {data: sessionData} = useSession();
 
   return (
     <>
@@ -30,22 +20,13 @@ const Home: NextPage = () => {
           <h1 className="text-5xl font-extrabold tracking-tight text-notehub-dark dark:text-notehub-light sm:text-[5rem]">
             NoteHub
           </h1>
-          <form onSubmit={handleSubmitNewNote} className="flex-col">
-            <div className="my-2">
-              <label htmlFor="name" className="text-notehub-dark dark:text-notehub-light">Name:</label>
-              <input id="name" className="border rounded p-2 w-full text-notehub-dark dark:text-notehub-light dark:bg-notehub-dark" type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)}/>
-            </div>
-            <div className="my-2">
-              <label htmlFor="path" className="text-notehub-dark dark:text-notehub-light">Path:</label>
-              <input id="path" className="border rounded p-2 w-full text-notehub-dark dark:text-notehub-light dark:bg-notehub-dark" type="text" placeholder="Path" value={path} onChange={(e) => setPath(e.target.value)}/>
-            </div>
-            <div className="my-2">
-              <label htmlFor="creator" className="text-notehub-dark dark:text-notehub-light">Creator:</label>
-              <input id="creator" className="border rounded p-2 w-full text-notehub-dark dark:text-notehub-light dark:bg-notehub-dark" type="text" placeholder="Creator" value={creator} onChange={(e) => setCreator(e.target.value)}/>
-            </div>
-            <button className="bg-notehub-secondary text-notehub-light rounded p-2 my-2" type="submit">Submit</button>
-          </form>
+          {
+            sessionData && (
+              <CreateNote/>
+            )
+          }
           <SearchTable data={notes.data}/>
+          <AuthShowcase/>
           
           {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
             <Link
@@ -100,7 +81,7 @@ const AuthShowcase: React.FC = () => {
         {secretMessage && <span> - {secretMessage}</span>}
       </p>
       <button
-        className="rounded-full bg-notehub-light/10 px-10 py-3 font-semibold text-notehub-light no-underline transition hover:bg-notehub-light/20"
+        className="rounded-full bg-notehub-primary px-10 py-3 font-semibold text-notehub-light no-underline transition hover:bg-notehub-primary/80"
         onClick={sessionData ? () => void signOut() : () => void signIn()}
       >
         {sessionData ? "Sign out" : "Sign in"}

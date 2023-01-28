@@ -23,7 +23,7 @@ export const noteRouter = createTRPCRouter({
       });
     }),
 
-  create: publicProcedure
+  create: protectedProcedure
     .input(z.object({
       name: z.string(),
       path: z.string(),
