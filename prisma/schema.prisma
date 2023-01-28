@@ -22,20 +22,20 @@ model Example {
 
 // Necessary for Next auth
 model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String? // @db.Text
+    id                       String  @id @default(cuid())
+    userId                   String
+    type                     String
+    provider                 String
+    providerAccountId        String
+    refresh_token            String? // @db.Text
     refresh_token_expires_in Int?
-    access_token      String? // @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String? // @db.Text
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    access_token             String? // @db.Text
+    expires_at               Int?
+    token_type               String?
+    scope                    String?
+    id_token                 String? // @db.Text
+    session_state            String?
+    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
 }
@@ -56,6 +56,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    notes         Note[]
 }
 
 model VerificationToken {
@@ -67,8 +68,31 @@ model VerificationToken {
 }
 
 model Note {
-    id            String    @id @default(cuid())
-    name String
-    creator String
-    path String
+    id        String   @id @default(cuid())
+    name      String
+    path      String
+    userId    String
+    classId   String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+}
+
+model Class {
+    id        String   @id @default(cuid())
+    name      String
+    schoolId  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    notes     Note[]
+    school    School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+}
+
+model School {
+    id        String   @id @default(cuid())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    classes   Class[]
 }

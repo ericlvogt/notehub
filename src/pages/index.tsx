@@ -14,27 +14,14 @@ const Home: NextPage = () => {
   const [name, setName] = useState("");
   const [path, setPath] = useState("");
   const [creator, setCreator] = useState("");
-  const [searchName, setSearchName] = useState("");
-  const [searchCreator, setSearchCreator] = useState("");
   
   const router = useRouter();
 
   const handleSubmitNewNote = async (e : React.FormEvent) => {
     e.preventDefault();
-    mutation.mutate({name, creator, path});
+    mutation.mutate({name, path, classId: "123"});
     await notes.refetch();
   };
-
-  const handleSubmitSearch = (e: React.FormEvent) => {
-      router.push({
-        pathname: "/search",
-        query: { name: name,
-          creator: creator,
-          path: path,
-        }
-      }).catch().then();
-    
-  }
 
   return (
     <>

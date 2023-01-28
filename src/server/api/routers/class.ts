@@ -2,19 +2,18 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
-export const noteRouter = createTRPCRouter({
+export const classRouter = createTRPCRouter({
   getAll: publicProcedure
-    // .input(z.object({ text: z.string() }))
     .query(({ ctx }) => {
-      return ctx.prisma.note.findMany();
+      return ctx.prisma.class.findMany();
     }),
 
   search: publicProcedure
     .input(z.object({
       name: z.string(),
     }))
-    .query(({ input, ctx }) => {
-      return ctx.prisma.note.findMany({
+    .query(({input, ctx}) => {
+      return ctx.prisma.class.findMany({
         where: {
           name: {
             contains: input.name,
@@ -26,17 +25,13 @@ export const noteRouter = createTRPCRouter({
   create: publicProcedure
     .input(z.object({
       name: z.string(),
-      path: z.string(),
-      classId: z.string(),
-    }),
-    )
+      schoolId: z.string(),
+    }))
     .mutation(async ({ input, ctx }) => {
-      await ctx.prisma.note.create({
+      await ctx.prisma.class.create({
         data: {
           name: input.name,
-          path: input.path,
-          classId: input.classId,
-          userId: ctx.session.user.id,
+          schoolId: input.schoolId,
         }
       })
     }),
