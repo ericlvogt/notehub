@@ -5,7 +5,7 @@ import { api } from "../utils/api";
 import React, { useState } from "react";
 import Layout from "../components/layout";
 import { useRouter } from "next/router";
-import SearchTable from "../components/search-table";
+import NoteTable from "../components/note-table";
 import CreateNote from "../components/create-note";
 
 const Home: NextPage = () => {
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
               <CreateNote/>
             )
           }
-          <SearchTable data={notes.data}/>
+          <NoteTable data={notes.data}/>
           <AuthShowcase/>
           
           {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">

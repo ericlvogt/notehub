@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import Layout from "../components/layout";
 import { useRouter } from "next/router";
 import { api } from "../utils/api";
-import SearchTable from "../components/search-table";
+import NoteTable from "../components/note-table";
 
 const Search: NextPage = () => {
     const router = useRouter();
@@ -19,7 +19,7 @@ const Search: NextPage = () => {
         <>
             <Layout>
                 <div>
-                    <SearchTable data={results.data}/>
+                    <NoteTable data={results.data}/>
                 </div>
             </Layout>
             
