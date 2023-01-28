@@ -12,7 +12,6 @@ const Search: NextPage = () => {
     
     const results = api.note.search.useQuery({
         name: searchTerm?.toString() ?? "",
-        creator: "",
     })
 
     return (

@@ -6,7 +6,7 @@ export default function CreateNote() {
     const [path, setPath] = useState("");
     const mutation = api.note.create.useMutation();
 
-    const handleSubmitNewNote = async (e : React.FormEvent) => {
+    const handleSubmitNewNote = (e : React.FormEvent) => {
         e.preventDefault();
         mutation.mutate({name, path, classId: "123"});
       };
