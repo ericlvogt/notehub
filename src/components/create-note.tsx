@@ -8,7 +8,7 @@ export default function CreateNote() {
 
     const handleSubmitNewNote = (e : React.FormEvent) => {
         e.preventDefault();
-        mutation.mutate({name, path, classId: "123"});
+        mutation.mutate({name, path, courseId: "123"});
       };
 
     return (

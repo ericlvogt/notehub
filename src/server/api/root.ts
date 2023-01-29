@@ -1,7 +1,7 @@
 import { createTRPCRouter } from "./trpc";
 import { exampleRouter } from "./routers/example";
 import { noteRouter } from "./routers/note";
-import { classRouter } from "./routers/class";
+import { courseRouter } from "./routers/course";
 import { schoolRouter } from "./routers/school";
 
 /**
@@ -12,7 +12,7 @@ import { schoolRouter } from "./routers/school";
 export const appRouter = createTRPCRouter({
   example: exampleRouter,
   note: noteRouter,
-  class: classRouter,
+  course: courseRouter,
   school: schoolRouter,
 });
 

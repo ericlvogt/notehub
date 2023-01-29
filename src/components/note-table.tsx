@@ -13,7 +13,7 @@ export default function NoteTable({
                 <thead className="bg-notehub-primary text-notehub-light">
                     <tr className="divide-x">
                         <th className="px-2 py-1">School</th>
-                        <th className="px-2 py-1">Class</th>
+                        <th className="px-2 py-1">Course</th>
                         <th className="px-2 py-1">Creator</th>
                         <th className="px-2 py-1">Note</th>
                         <th className="px-2 py-1">Path</th>
@@ -24,8 +24,8 @@ export default function NoteTable({
                         data?.map((note
                         ) =>
                             <tr key={note.id} className="divide-x">
-                                <td className="px-2 py-1">{note.classId}</td>
-                                <td className="px-2 py-1">{note.classId}</td>
+                                <td className="px-2 py-1">{note.courseId}</td>
+                                <td className="px-2 py-1">{note.courseId}</td>
                                 <td className="px-2 py-1">{note.userId}</td>
                                 <td className="px-2 py-1">{note.name}</td>
                                 <td className="px-2 py-1">{note.path}</td>

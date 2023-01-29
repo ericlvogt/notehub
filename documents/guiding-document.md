@@ -1,7 +1,7 @@
 # Guiding Document
 The main objectives of this product:
-1. Share notes taken for a specific class or purpose
-2. Easily find notes shared by others based on the class or purpose of their study
+1. Share notes taken for a specific course or purpose
+2. Easily find notes shared by others based on the course or purpose of their study
 3. Allow users to access notes from anywhere
 
 ## Features

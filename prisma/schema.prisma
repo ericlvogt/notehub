@@ -72,14 +72,14 @@ model Note {
     name      String
     path      String
     userId    String
-    classId   String
+    courseId   String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+    course     Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
-model Class {
+model Course {
     id        String   @id @default(cuid())
     name      String
     schoolId  String
@@ -94,5 +94,5 @@ model School {
     name      String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    classes   Class[]
+    courses   Course[]
 }

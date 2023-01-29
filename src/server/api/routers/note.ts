@@ -27,7 +27,7 @@ export const noteRouter = createTRPCRouter({
     .input(z.object({
       name: z.string(),
       path: z.string(),
-      classId: z.string(),
+      courseId: z.string(),
     }),
     )
     .mutation(async ({ input, ctx }) => {
@@ -35,7 +35,7 @@ export const noteRouter = createTRPCRouter({
         data: {
           name: input.name,
           path: input.path,
-          classId: input.classId,
+          courseId: input.courseId,
           userId: ctx.session.user.id,
         }
       })
