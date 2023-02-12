@@ -6,7 +6,6 @@ import React, { useState } from "react";
 import Layout from "../components/layout";
 import { useRouter } from "next/router";
 import NoteTable from "../components/note-table";
-import CreateNote from "../components/create-note";
 
 const Home: NextPage = () => {
   
@@ -20,11 +19,6 @@ const Home: NextPage = () => {
           <h1 className="text-5xl font-extrabold tracking-tight text-notehub-dark dark:text-notehub-light sm:text-[5rem]">
             NoteHub
           </h1>
-          {
-            sessionData && (
-              <CreateNote/>
-            )
-          }
           <NoteTable data={notes.data}/>
           <AuthShowcase/>
           

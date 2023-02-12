@@ -8,3 +8,4 @@
 - File Storage - ?
 - Automated Deploys - GitHub Actions
 - Test Framework - ?
+- Utilize GitHub as inspiration for features and design

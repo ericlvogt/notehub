@@ -4,6 +4,18 @@ The main objectives of this product:
 2. Easily find notes shared by others based on the course or purpose of their study
 3. Allow users to access notes from anywhere
 
+## Data Schema
+
+The target audience are students looking to share notes for classes
+For starters it will be helpful to emulate a successful site
+- Similarly to GitHub We will utilize a path like schema to represent data on the site
+- Similarly to GitHub note repositories will have the structure user/noteRepository
+- A fair name for a repository will be eric/enel-101
+- Courses will behave similarly to Twitch categories the courses to note repositories will have a one to many relationship for now so each note repository can only have one related course.
+    - It may be helpful in the future to change this to many to many to encourage a second-brain strategy to note taking where relationships can be drawn between topics
+- Topics - allow courses (and maybe notes) to be tagged with topics so similar courses can be categorized
+- Schools and Classes should only be able to be created by mods? This is to avoid duplication
+
 ## Features
 
 Features shall be documented as user stories on GitHub.

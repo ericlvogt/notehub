@@ -1,7 +1,7 @@
-export default function Sun(props) {
+export default function Sun({className} : {className: string}) {
   return (
     <svg id="theme-toggle-light-icon"
-      className={props.className}
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

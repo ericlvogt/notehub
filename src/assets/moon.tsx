@@ -1,8 +1,8 @@
-export default function Moon(props) {
+export default function Moon({className}: {className: string}) {
   return (
     <svg
       id="theme-toggle-dark-icon"
-      className={props.className}
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
