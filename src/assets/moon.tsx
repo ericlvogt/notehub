@@ -1,4 +1,4 @@
-export default function Moon({className}: {className: string}) {
+export default function Moon({className = ""}: {className?: string}) {
   return (
     <svg
       id="theme-toggle-dark-icon"

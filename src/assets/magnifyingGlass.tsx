@@ -1,7 +1,7 @@
-export default function MagnifyingGlass(){
+export default function MagnifyingGlass({className = ""} : {className?: string}){
     return (
         <svg 
-            className="w-5 h-5" 
+            className={className}
             aria-hidden="true" 
             fill="currentColor" 
             viewBox="0 0 20 20" 
