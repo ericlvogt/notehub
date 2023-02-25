@@ -33,7 +33,7 @@ const Create: NextPage = () => {
     return (
         <>
             <Layout>
-                <h1 className="text-lg">Create</h1>
+                <h1 className="text-lg font-bold">Create</h1>
                 <form onSubmit={handleSubmitNewNote}>
                     <div className="flex flex-col gap-y-2">
                         <div className="flex flex-row items-end">
@@ -48,19 +48,21 @@ const Create: NextPage = () => {
                             </div>
                         </div>
                         <div>
-                            <label htmlFor="path" className="">Path</label>
+                            <label htmlFor="path">Path</label>
                             <input id="path" className="bg-inherit text-inherit border rounded p-2 w-full" type="text" placeholder="Path" value={path} onChange={(e) => setPath(e.target.value)} />
                         </div>
                         <div>
-                            <label htmlFor="school" className="">School</label>
+                            <label htmlFor="school">School</label>
                             <DropdownSearch items={schools.data?.map(x => ({ name: x.name } as DropdownItem))} 
                                 placeholder="School" value={schoolSearchTerm} 
                                 setValue={(value: string) => {setSchoolSearchTerm(value);}}
                                 />
                         </div>
                         <div>
-                            <label htmlFor="course" className="">Course</label>
-                            <input id="course" disabled={schoolSearchTerm === undefined || schoolSearchTerm === ""} className="border rounded p-2 w-full" type="text" placeholder="Course" value={courseSearchTerm} onChange={(e) => setCourseSearchTerm(e.target.value)} />
+                            <label htmlFor="course">Course</label>
+                            <input id="course" disabled={schoolSearchTerm === ""} 
+                                className="bg-inherit disabled:bg-notehub-highlightedLight disabled:dark:bg-notehub-highlightedDark border rounded p-2 w-full" type="text" placeholder="Course" 
+                                value={courseSearchTerm} onChange={(e) => setCourseSearchTerm(e.target.value)} />
                         </div>
                         <button className="bg-notehub-secondary text-notehub-light rounded p-2" type="submit">Submit</button>
                     </div>
