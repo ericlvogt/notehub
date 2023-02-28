@@ -31,7 +31,7 @@ export const noteRouter = createTRPCRouter({
     }),
     )
     .mutation(async ({ input, ctx }) => {
-      await ctx.prisma.note.create({
+      return await ctx.prisma.note.create({
         data: {
           name: input.name,
           path: input.path,

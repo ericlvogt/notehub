@@ -2,17 +2,18 @@ import { useState } from "react";
 import MagnifyingGlass from "../assets/magnifyingGlass";
 
 export interface DropdownItem {
-    name: String;
+    name: string;
 }
 
-export default function DropdownSearch({ className, items, placeholder, value, setValue }:
+export default function DropdownSearch({ className, items, placeholder, value, setValue, disabled = false }:
     {
         className?: string,
         items: Array<DropdownItem> | undefined,
         placeholder?: string,
         value: string,
-        setValue: Function
-    }) 
+        setValue: Function,
+        disabled?: boolean,
+    })
 {
     const [focused, setFocused] = useState(-1);
     const [dropdownIsVisible, setDropdownIsVisible] = useState(false);
@@ -54,9 +55,10 @@ export default function DropdownSearch({ className, items, placeholder, value, s
                         }
                         onFocus={() => setDropdownIsVisible(true)}
                         onBlur={() => setDropdownIsVisible(false)}
+                        disabled = {disabled}
                     />
                     {items && dropdownIsVisible && (
-                        <ul className="bg-notehub-light dark:bg-notehub-dark w-full border rounded-lg absolute overflow-y-auto">
+                        <ul className="bg-notehub-light dark:bg-notehub-dark w-full border rounded-lg absolute overflow-y-auto z-10">
                             {items.length > 0 ? (
                                 items.map((item, index) => (
                                     <li key={index} className={`py-2 pl-3 ${focused === index ? "bg-notehub-highlightedLight dark:bg-notehub-highlightedDark" : ""}`}

@@ -28,7 +28,7 @@ export const courseRouter = createTRPCRouter({
       schoolId: z.string(),
     }))
     .mutation(async ({ input, ctx }) => {
-      await ctx.prisma.course.create({
+      return await ctx.prisma.course.create({
         data: {
           name: input.name,
           schoolId: input.schoolId,

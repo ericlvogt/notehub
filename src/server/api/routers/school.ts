@@ -28,7 +28,7 @@ export const schoolRouter = createTRPCRouter({
     }),
     )
     .mutation(async ({ input, ctx }) => {
-      await ctx.prisma.school.create({
+      return await ctx.prisma.school.create({
         data: {
           name: input.name,
         }
