@@ -11,7 +11,7 @@ export default function DropdownSearch({ className, items, placeholder, value, s
         items: Array<DropdownItem> | undefined,
         placeholder?: string,
         value: string,
-        setValue: Function,
+        setValue: React.Dispatch<React.SetStateAction<string>>,
         disabled?: boolean,
     })
 {
@@ -22,7 +22,7 @@ export default function DropdownSearch({ className, items, placeholder, value, s
       if (event.key === 'Enter'){
           event.preventDefault();
           if(items && focused > -1){
-              setValue(items[focused]?.name);
+              setValue(items[focused]?.name ?? "");
               setFocused(-1);
           }
       } else if (event.key === 'ArrowDown') {

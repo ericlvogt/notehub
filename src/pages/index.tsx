@@ -2,15 +2,13 @@ import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "../utils/api";
-import React, { useState } from "react";
+import React from "react";
 import Layout from "../components/layout";
-import { useRouter } from "next/router";
 import NoteTable from "../components/note-table";
 
 const Home: NextPage = () => {
   
   const notes = api.note.getAll.useQuery();
-  const {data: sessionData} = useSession();
 
   return (
     <>

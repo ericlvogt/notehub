@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react"
 import React, { useState } from "react";
 import DropdownSearch, { type DropdownItem } from "../components/dropdown-search";
 import { useRouter } from "next/router";
-import { School, Course, Note } from "@prisma/client";
+import type { School, Course, Note } from "@prisma/client";
 
 const Create: NextPage = () => {
     const { data: sessionData, status } = useSession()
@@ -33,13 +33,7 @@ const Create: NextPage = () => {
         return <p>Access Denied</p>
     }
 
-    const handleSubmitNewNote = async (e: React.FormEvent) => {
-        if (!submitIsValid()){
-            console.log('prevented')
-            e.stopPropagation();
-            return;
-        }
-        
+    const persistSubmit = async () => {
         let school: School;
         if (schools.data && schools.data.length === 1 && schools.data[0]?.name === schoolSearchTerm){
             school = schools.data[0];
@@ -54,9 +48,22 @@ const Create: NextPage = () => {
             course = await createCourseMutation.mutateAsync({name: courseSearchTerm, schoolId: school.id});
         }
 
-        const note: Note = await createNoteMutation.mutateAsync({ name, path: "", courseId: course.id });
-        // router.push(`/${sessionData.user?.name}/${note.name}`)
+        return await createNoteMutation.mutateAsync({ name, path: "", courseId: course.id });
     };
+
+    const handleSubmitNewNote = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!submitIsValid()){
+            console.log('prevented')
+            e.stopPropagation();
+            return;
+        }
+        
+        persistSubmit().then(async (note: Note) => {
+            const userName = sessionData.user?.name as string
+            await router.push(`/${userName}/${note.name}`)
+        }).catch((ex) => {console.error(ex)});
+    }
 
     function submitIsValid(): boolean {
         if (!schoolSearchTerm || schoolSearchTerm === ""){
@@ -89,13 +96,13 @@ const Create: NextPage = () => {
                             <label htmlFor="school">School</label>
                             <DropdownSearch items={schools.data?.map(x => ({ name: x.name } as DropdownItem))} 
                                 placeholder="School" value={schoolSearchTerm} 
-                                setValue={(value: string) => {setSchoolSearchTerm(value);}}
+                                setValue={setSchoolSearchTerm}
                                 />
                         </div>
                             <label htmlFor="course">Course</label>
                             <DropdownSearch items={courses.data?.map(x => ({ name: x.name } as DropdownItem))} 
                                 placeholder="Course" value={courseSearchTerm} 
-                                setValue={(value: string) => {setCourseSearchTerm(value);}}
+                                setValue={setCourseSearchTerm}
                                 disabled={schoolSearchTerm === ""}
                                 className="disabled:bg-notehub-highlightedLight disabled:dark:bg-notehub-highlightedDark"
                                 />

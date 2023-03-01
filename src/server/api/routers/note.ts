@@ -4,7 +4,6 @@ import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
 export const noteRouter = createTRPCRouter({
   getAll: publicProcedure
-    // .input(z.object({ text: z.string() }))
     .query(({ ctx }) => {
       return ctx.prisma.note.findMany();
     }),
@@ -20,9 +19,26 @@ export const noteRouter = createTRPCRouter({
             contains: input.name,
           },
         },
+        include:{
+          course: true,
+          user: true,
+        }
       });
     }),
-
+    searchFirst: publicProcedure
+      .input(z.object({
+        name: z.string(),
+      }))
+      .query(
+        ({input, ctx}) => {
+          return ctx.prisma.note.findFirst({
+            where:{
+              name: {
+                equals: input.name,
+              },
+            },
+          });
+        }),
   create: protectedProcedure
     .input(z.object({
       name: z.string(),
