@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Layout>
-        <div className="flex flex-col items-center justify-items-center gap-12 px-4 py-16 ">
+        <div className="flex flex-col items-center justify-items-center gap-12 pt-16 ">
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
             NoteHub
           </h1>

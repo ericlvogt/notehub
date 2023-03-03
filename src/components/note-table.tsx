@@ -1,5 +1,4 @@
 import { type Note, type User, type Course, type School } from "@prisma/client"
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function NoteTable({
