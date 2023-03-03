@@ -22,7 +22,7 @@ const NoteDetail: NextPage = () => {
         <>
             <Layout>
                 <div className="flex flex-col justify-items-center items-center">
-                    <h1 className="font-bold pt-10 pb-5 text-5xl">Note {note?.name}</h1>
+                    <h1 className="font-bold pt-10 pb-5 text-5xl">{note?.name}</h1>
                 </div>
             </Layout>
         </>

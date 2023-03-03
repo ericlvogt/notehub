@@ -17,8 +17,9 @@ const Search: NextPage = () => {
     return (
         <>
             <Layout>
-                <div>
-                    <NoteTable data={results.data}/>
+                <div className="flex flex-col items-center justify-items-center">
+                    <h1 className="font-bold pt-10 pb-5 text-5xl">Search</h1>
+                    <NoteTable data={results.data ?? []}/>
                 </div>
             </Layout>
             

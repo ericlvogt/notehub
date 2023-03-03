@@ -8,7 +8,9 @@ import NoteTable from "../components/note-table";
 
 const Home: NextPage = () => {
   
-  const notes = api.note.getAll.useQuery();
+  const notes = api.note.search.useQuery({
+    name: ""
+  });
 
   return (
     <>
@@ -17,7 +19,7 @@ const Home: NextPage = () => {
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
             NoteHub
           </h1>
-          <NoteTable data={notes.data}/>
+          <NoteTable data={notes.data ?? []}/>
         </div>
       </Layout>
     </>

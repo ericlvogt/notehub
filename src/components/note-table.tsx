@@ -1,12 +1,21 @@
-import { type Note } from "@prisma/client"
+import { type Note, type User, type Course, type School } from "@prisma/client"
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function NoteTable({
     data
 }:
     {
-        data: Array<Note> | undefined
+        data: Array<Note & {
+            user: User;
+            course: Course & {
+                school: School;
+            };
+        }>
     }
 ) {
+    const router = useRouter();
+
     return (
         <div className="inline-block rounded-lg border shadow-2xl overflow-hidden">
             <table>
@@ -23,10 +32,12 @@ export default function NoteTable({
                     {
                         data?.map((note
                         ) =>
-                            <tr key={note.id} className="divide-x">
-                                <td className="px-2 py-1">{note.courseId}</td>
-                                <td className="px-2 py-1">{note.courseId}</td>
-                                <td className="px-2 py-1">{note.userId}</td>
+                            <tr key={note.id} className="divide-x hover:cursor-pointer hover:bg-notehub-highlightedLight hover:dark:bg-notehub-highlightedDark" 
+                                onClick={() => router.push(`/${note.user.name}/${note.name}`)}
+                                >
+                                <td className="px-2 py-1">{note.course.school.name}</td>
+                                <td className="px-2 py-1">{note.course.name}</td>
+                                <td className="px-2 py-1">{note.user.name}</td>
                                 <td className="px-2 py-1">{note.name}</td>
                                 <td className="px-2 py-1">{note.path}</td>
                             </tr>

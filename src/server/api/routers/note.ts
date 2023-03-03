@@ -3,11 +3,6 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
 export const noteRouter = createTRPCRouter({
-  getAll: publicProcedure
-    .query(({ ctx }) => {
-      return ctx.prisma.note.findMany();
-    }),
-
   search: publicProcedure
     .input(z.object({
       name: z.string(),
@@ -20,7 +15,11 @@ export const noteRouter = createTRPCRouter({
           },
         },
         include:{
-          course: true,
+          course: {
+            include: {
+              school: true
+            }
+          },
           user: true,
         }
       });
