@@ -1,17 +1,17 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import React, { useState, type ReactNode } from 'react';
 import SearchBar from './search-bar';
 import Sun from '../assets/sun';
 import Moon from '../assets/moon';
+import { useSession } from 'next-auth/react';
 
 export default function Layout({
-  children,
-  home,
+  children
 }:
   {
-    children: ReactNode,
-    home?: boolean,
+    children: ReactNode
   }) {
   const handleToggleDarkMode = () => {
     const nextDarkMode = !darkMode;
@@ -27,6 +27,8 @@ export default function Layout({
   }
 
   const [darkMode, setDarkMode] = useState(false);
+  const {data} = useSession();
+  const myLoader = ({src, width, quality}: {src: string, width:string, quality:string}) => data?.user?.image;
 
   return (
     <div className="bg-notehub-light text-notehub-dark dark:bg-notehub-dark dark:text-notehub-light h-screen">
@@ -56,10 +58,11 @@ export default function Layout({
             }
           </button>
         </div>
-        <div className='mr-2 flex justify-end items-center'>
+        <div className='mr-2 flex flex-row justify-start gap-3 items-center'>
           <Link href={"/create"} className='ml-2 bg-notehub-secondary rounded-xl text-lg font-extrabold px-3 py-1 hover:bg-notehub-secondary/80'>
-            Create
+            +
           </Link>
+          <Image src={data?.user?.image ?? ''} alt='?' width="30" height="30" className='rounded-sm hover:rounded-xl duration-150'/>
         </div>
       </header>
       <main >
