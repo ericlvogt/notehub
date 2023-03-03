@@ -21,7 +21,9 @@ const NoteDetail: NextPage = () => {
     return (
         <>
             <Layout>
-                <h1 className="text-lg font-bold">Note {note?.name}</h1>
+                <div className="flex flex-col justify-items-center items-center">
+                    <h1 className="font-bold pt-10 pb-5 text-5xl">Note {note?.name}</h1>
+                </div>
             </Layout>
         </>
     );

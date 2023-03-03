@@ -8,8 +8,8 @@ export default function NoteTable({
     }
 ) {
     return (
-        <div className="inline-block rounded-lg border shadow-2xl mx-auto overflow-hidden">
-            <table className="text-black dark:text-white">
+        <div className="inline-block rounded-lg border shadow-2xl overflow-hidden">
+            <table>
                 <thead className="bg-notehub-primary text-notehub-light">
                     <tr className="divide-x">
                         <th className="px-2 py-1">School</th>

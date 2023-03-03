@@ -78,37 +78,41 @@ const Create: NextPage = () => {
     return (
         <>
             <Layout>
-                <h1 className="text-lg font-bold">Create</h1>
-                <form onSubmit={handleSubmitNewNote}>
-                    <div className="flex flex-col gap-y-2">
-                        <div className="flex flex-row items-end">
-                            <div className="flex flex-col">
-                                <label htmlFor="creator">Creator</label>
-                                <span id="creator" className="pointer-events-none border rounded p-2 whitespace-nowrap">{sessionData.user?.name}</span>
+                <div className="flex flex-col items-center justify-items-center">
+                    <h1 className="font-bold pt-10 pb-5 text-5xl">Create</h1>
+                    <form onSubmit={handleSubmitNewNote}>
+                        <div className="flex flex-col gap-y-2">
+                            <div className="flex flex-row items-end">
+                                <div className="flex flex-col">
+                                    <label htmlFor="creator">Creator</label>
+                                    <span id="creator" className="pointer-events-none border rounded p-2 whitespace-nowrap">{sessionData.user?.name}</span>
+                                </div>
+                                <span className="p-2 whitespace-nowrap px-2 ">/</span>
+                                <div>
+                                    <label htmlFor="repository">Repository</label>
+                                    <input id="repository" className="bg-inherit text-inherit border rounded p-2 w-full" type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+                                </div>
                             </div>
-                            <span className="p-2 whitespace-nowrap px-2 ">/</span>
                             <div>
-                                <label htmlFor="repository">Repository</label>
-                                <input id="repository" className="bg-inherit text-inherit border rounded p-2 w-full" type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+                                <label htmlFor="school">School</label>
+                                <DropdownSearch items={schools.data?.map(x => ({ name: x.name } as DropdownItem))} 
+                                    placeholder="School" value={schoolSearchTerm} 
+                                    setValue={setSchoolSearchTerm}
+                                    />
                             </div>
+                            <div>
+                                <label htmlFor="course">Course</label>
+                                <DropdownSearch items={courses.data?.map(x => ({ name: x.name } as DropdownItem))} 
+                                    placeholder="Course" value={courseSearchTerm} 
+                                    setValue={setCourseSearchTerm}
+                                    disabled={schoolSearchTerm === ""}
+                                    className="disabled:bg-notehub-highlightedLight disabled:dark:bg-notehub-highlightedDark"
+                                    />
+                            </div>
+                            <button className="bg-notehub-secondary text-notehub-light rounded p-2 mt-2" type="submit">Submit</button>
                         </div>
-                        <div>
-                            <label htmlFor="school">School</label>
-                            <DropdownSearch items={schools.data?.map(x => ({ name: x.name } as DropdownItem))} 
-                                placeholder="School" value={schoolSearchTerm} 
-                                setValue={setSchoolSearchTerm}
-                                />
-                        </div>
-                            <label htmlFor="course">Course</label>
-                            <DropdownSearch items={courses.data?.map(x => ({ name: x.name } as DropdownItem))} 
-                                placeholder="Course" value={courseSearchTerm} 
-                                setValue={setCourseSearchTerm}
-                                disabled={schoolSearchTerm === ""}
-                                className="disabled:bg-notehub-highlightedLight disabled:dark:bg-notehub-highlightedDark"
-                                />
-                        <button className="bg-notehub-secondary text-notehub-light rounded p-2" type="submit">Submit</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </Layout>
         </>
     );
