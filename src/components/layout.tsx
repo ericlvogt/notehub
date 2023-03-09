@@ -6,6 +6,7 @@ import SearchBar from './search-bar';
 import Sun from '../assets/sun';
 import Moon from '../assets/moon';
 import { useSession } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 
 export default function Layout({
   children
@@ -25,8 +26,8 @@ export default function Layout({
       localStorage.setItem('color-theme', 'light');
     }
   }
-
-  const [darkMode, setDarkMode] = useState(document.documentElement.classList.contains('dark'));
+  
+  const [darkMode, setDarkMode] = useState(false);
   const {data} = useSession();
 
   return (
@@ -57,11 +58,16 @@ export default function Layout({
             }
           </button>
         </div>
-        <div className='mr-2 flex flex-row justify-start gap-3 items-center'>
+        <div className='mr-2 flex flex-row justify-start gap-3 items-center justify-items-center'>
           <Link href={"/create"} className='bg-notehub-secondary rounded-xl text-lg font-extrabold px-3 py-1 hover:bg-notehub-secondary/80'>
             +
           </Link>
-          <Image src={data?.user?.image ?? ''} alt='?' width="30" height="30" className='rounded-sm hover:rounded-xl duration-150'/>
+          {
+            data ?
+            <Image src={data?.user?.image ?? ''} alt='?' width="30" height="30" className='rounded-sm hover:rounded-xl duration-150'/>
+            :
+            <LogIn/>
+          }
         </div>
       </header>
       <main >
@@ -70,3 +76,16 @@ export default function Layout({
     </div>
   );
 }
+
+const LogIn: React.FC = () => {
+  const { data: sessionData } = useSession();
+
+  return (
+      <button
+        className="bg-notehub-secondary rounded-xl text-lg font-extrabold px-3 py-1 hover:bg-notehub-secondary/80"
+        onClick={sessionData ? () => void signOut() : () => void signIn()}
+      >
+        {sessionData ? "Sign out" : "Sign in"}
+      </button>
+  );
+};
