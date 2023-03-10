@@ -62,12 +62,8 @@ export default function Layout({
           <Link href={"/create"} className='bg-notehub-secondary rounded-xl text-lg font-extrabold px-3 py-1 hover:bg-notehub-secondary/80'>
             +
           </Link>
-          {
-            data ?
-            <Image src={data?.user?.image ?? ''} alt='?' width="30" height="30" className='rounded-sm hover:rounded-xl duration-150'/>
-            :
-            <LogIn/>
-          }
+          <Image src={data?.user?.image ?? ''} alt='?' width="30" height="30" className='rounded-sm hover:rounded-xl duration-150'/>
+          <LogIn/>
         </div>
       </header>
       <main >
