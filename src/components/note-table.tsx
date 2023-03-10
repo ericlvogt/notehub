@@ -32,7 +32,7 @@ export default function NoteTable({
                         data?.map((note
                         ) =>
                             <tr key={note.id} className="divide-x hover:cursor-pointer hover:bg-notehub-highlightedLight hover:dark:bg-notehub-highlightedDark" 
-                                onClick={() => router.push(`/${note.user.name}/${note.name}`)}
+                                onClick={() => router.push(`/${note.user.name as string}/${note.name}`)}
                                 >
                                 <td className="px-2 py-1">{note.course.school.name}</td>
                                 <td className="px-2 py-1">{note.course.name}</td>

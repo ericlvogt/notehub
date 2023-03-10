@@ -71,7 +71,7 @@ model VerificationToken {
 model Note {
     id        String   @id @default(cuid())
     name      String
-    path      String
+    path      String?
     userId    String
     courseId   String
     createdAt DateTime @default(now())

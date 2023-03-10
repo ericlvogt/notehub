@@ -1,4 +1,5 @@
 import { z } from "zod";
+import getFilePath from "../../lib/getFilePath";
 import saveFile from "../../lib/saveFile";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
@@ -28,6 +29,7 @@ export const noteRouter = createTRPCRouter({
   searchFirst: publicProcedure
     .input(z.object({
       name: z.string(),
+      userName: z.string(),
     }))
     .query(
       ({input, ctx}) => {
@@ -36,6 +38,11 @@ export const noteRouter = createTRPCRouter({
             name: {
               equals: input.name,
             },
+            user:{
+              name:{
+                equals: input.userName
+              }
+            }
           },
         });
       }),
@@ -43,9 +50,19 @@ export const noteRouter = createTRPCRouter({
     .input(z.object({
       noteId: z.string(),
       fileName: z.string(),
+      data: z.string(),
     }))
-    .mutation(async ({input}) => {
-      return await saveFile(input);
+    .mutation(async ({input, ctx}) => {
+      const path = getFilePath(input);
+      saveFile({path, ...input});
+      return await ctx.prisma.note.update({
+        where:{
+          id: input.noteId
+        },
+        data:{
+          path: path
+        }
+      });
     }
     ),
   create: protectedProcedure
