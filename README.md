@@ -1,4 +1,5 @@
 # NoteHub
+
 NoteHub is a place where you find and share notes. The goal is to make knowledge sharing and learning accessible for courses, work, and self study.
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.

@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 const SearchBar = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    router.push({
+    router
+      .push({
         pathname: "/search",
-        query: { 
-            searchTerm: searchTerm
-        }
-    }).catch((e) => console.log(e));
+        query: {
+          searchTerm: searchTerm,
+        },
+      })
+      .catch((e) => console.log(e));
   };
 
   return (
@@ -20,12 +22,17 @@ const SearchBar = () => {
       <input
         id="search"
         type="text"
-        placeholder='Search...'
+        placeholder="Search..."
         value={searchTerm}
         onChange={(event) => setSearchTerm(event.target.value)}
-        className="rounded-md text-notehub-dark bg-notehub-light dark:bg-notehub-dark dark:text-notehub-light mr-3 py-1 px-2 focus:w-full"
+        className="mr-3 rounded-md bg-notehub-light py-1 px-2 text-notehub-dark focus:w-full dark:bg-notehub-dark dark:text-notehub-light"
       />
-      <button type="submit" className="bg-notehub-secondary text-notehub-light py-2 px-4 rounded-lg hover:bg-notehub-secondary/80">Search</button>
+      <button
+        type="submit"
+        className="rounded-lg bg-notehub-secondary py-2 px-4 text-notehub-light hover:bg-notehub-secondary/80"
+      >
+        Search
+      </button>
     </form>
   );
 };
