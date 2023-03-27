@@ -15,10 +15,15 @@ const Home: NextPage = () => {
     <>
       <Layout>
         <div className="flex flex-col items-center justify-items-center gap-12 pt-16 ">
-          <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
+          <h1 className="text-5xl tracking-tight sm:text-[5rem]">
             NoteHub
           </h1>
-          <NoteTable data={notes.data ?? []}/>
+          {
+            notes.data ? 
+            <NoteTable data={notes.data ?? []}/>
+            :
+            <></>
+          }
         </div>
       </Layout>
     </>
