@@ -4,9 +4,10 @@ import { api } from "../../utils/api";
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router";
 import { useState, type DragEvent, type ChangeEvent } from "react";
-import { basename } from "path"
+import { basename } from "path";
 
 const NoteDetail: NextPage = () => {
+    
     const { status } = useSession()
     const router = useRouter();
 
@@ -23,8 +24,11 @@ const NoteDetail: NextPage = () => {
                 return;
             }
             setFileName(basename(data.path));
-            fetch(`file://${data.path}`).then((response) => {
-                response.text().then((value) => setFileText(value)).catch((e) => console.error("error"))
+            fetch(`file://${data.path}`)
+                .then((response) => {
+                    response.text()
+                        .then((value) => setFileText(value))
+                        .catch((e) => console.error("error"))
             }).catch((e) => console.error("error"))
         }}).data;
 
