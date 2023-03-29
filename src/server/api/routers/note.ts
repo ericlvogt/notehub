@@ -1,6 +1,8 @@
+import { Note } from "@prisma/client";
 import { z } from "zod";
 import getFilePath from "../../lib/getFilePath";
 import saveFile from "../../lib/saveFile";
+import {readFileSync} from "fs"
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
@@ -49,6 +51,29 @@ export const noteRouter = createTRPCRouter({
         },
       });
     }),
+  getFile: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({input, ctx}) => {
+      const note: Note | null = await ctx.prisma.note.findFirst({
+        where: {
+          id: {
+            equals: input.id,
+          },
+        },
+      });
+
+      if (note === null){
+        return "";
+      }
+
+      return readFileSync(note.path as string).toString();
+    }
+
+    ),
   saveFile: protectedProcedure
     .input(
       z.object({

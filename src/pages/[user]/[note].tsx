@@ -4,15 +4,15 @@ import { api } from "../../utils/api";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState, type DragEvent, type ChangeEvent } from "react";
-import { basename } from "path";
+import { getBasePath } from "../../lib/getBasePath";
 
 const NoteDetail: NextPage = () => {
   const { status } = useSession();
   const router = useRouter();
 
   const { note: routeNote, user: routeUser } = router.query;
-  const [fileName, setFileName] = useState("");
-  const [fileText, setFileText] = useState("");
+  const [fileName, setFileName] = useState<string | null>();
+  const [fileText, setFileText] = useState<string>();
 
   const note = api.note.searchFirst.useQuery(
     {
@@ -20,23 +20,29 @@ const NoteDetail: NextPage = () => {
       userName: routeUser as string,
     },
     {
-      enabled: !!routeNote,
+      enabled: !!routeNote && fileName === undefined,
       onSuccess: (data) => {
-        if (!data?.path) {
+        if (!data?.path || data.path === "") {
+          setFileName(null);
           return;
         }
-        setFileName(basename(data.path));
-        fetch(`file://${data.path}`)
-          .then((response) => {
-            response
-              .text()
-              .then((value) => setFileText(value))
-              .catch((e) => console.error("error"));
-          })
-          .catch((e) => console.error("error"));
+
+        setFileName(getBasePath(data.path));
       },
     }
   ).data;
+
+  const fileQuery = api.note.getFile.useQuery(
+    {
+      id: note?.id as string,
+    },
+    {
+      enabled: !!fileName && !fileText,
+      onSuccess: (data) => {
+        setFileText(data ?? "");
+      }
+    }
+  )
 
   const fileMutation = api.note.saveFile.useMutation();
 
@@ -129,7 +135,7 @@ const NoteDetail: NextPage = () => {
               >
                 Upload
               </button>
-              {fileName != "" ? (
+              {fileName ? (
                 <div className="w-5/6 overflow-clip rounded-lg border">
                   <h1 className="border-b bg-notehub-primary py-1 pl-2 font-bold text-notehub-light">
                     {`${fileName}`}
